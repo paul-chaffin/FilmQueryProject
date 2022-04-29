@@ -22,7 +22,6 @@ public class Film {
 	private double repl_cost;
 	private String rating;
 	private String feat;
-	private List<Actor> actors;
 
 	public Film() {
 	}
@@ -45,11 +44,9 @@ public class Film {
 		this.repl_cost = repl_cost;
 		this.rating = rating;
 		this.feat = feat;
-		setActors();
 	}
 
 	public void setActors() {
-		actors = new ArrayList<Actor>();
 		Actor actor = null;
 		String user = "student";
 		String pass = "student";
@@ -170,7 +167,7 @@ public class Film {
 	@Override
 	public String toString() {
 		return "\nTitle: " + title + "\nYear: " + year + "\nRating: " + rating + "\nDescription: " + desc
-				+ "\nLanguage: " + lang + "\nCast: " + actors + "\n";
+				+ "\nLanguage: " + lang + "\n";
 	}
 
 	@Override

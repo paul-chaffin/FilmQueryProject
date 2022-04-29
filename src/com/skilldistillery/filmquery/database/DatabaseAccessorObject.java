@@ -20,18 +20,71 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	}
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-	};
+	}
 
-	@Override
-	public Film findFilmById(int filmId) throws SQLException {
-		Film film = null;
+	public List<Actor> setActors() {
+		List<Actor> actors = new ArrayList<>();
+		Actor actor = null;
+		String user = "student";
+		String pass = "student";
+		try {
+			Connection conn = DriverManager.getConnection(url, user, pass);
+			String sql = "SELECT first_name, last_name, ";
+			sql += " FROM actor JOIN film_actor ON actor.id = film_actor.actor_id " + " WHERE film_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, this.id);
+			ResultSet actorResult = stmt.executeQuery();
+			while (actorResult.next()) {
+				if (actorResult.next()) {
+					actor = new Actor(); // Create the object
+					// Here is our mapping of query columns to our object fields:
+					actor.setActor_f_name(actorResult.getString(1));
+					actor.setActor_l_name(actorResult.getString(2));
+					actors.add(actor);
+				}
+			}
+			actorResult.close();
+			stmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return actors;
+	}
+
+	public String getLanguage(int filmId) {
 		String user = "student";
 		String pass = "student";
 		String lang = "";
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
 
-			String sql = "SELECT title, description, release_year, rating, language_id FROM film WHERE id = ?";
+			String sql = "SELECT name FROM language JOIN film ON language.id = film.language_id ";
+			sql += "WHERE film.id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, filmId);
+			ResultSet filmResult = stmt.executeQuery();
+			if (filmResult.next()) {
+				lang = filmResult.getString(1);
+			}
+			filmResult.close();
+			stmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lang;
+	}
+
+	@Override
+	public Film findFilmById(int filmId) throws SQLException {
+		Film film = null;
+		String user = "student";
+		String pass = "student";
+		try {
+			Connection conn = DriverManager.getConnection(url, user, pass);
+
+			String sql = "SELECT title, description, release_year, rating FROM film WHERE id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, filmId);
 			ResultSet filmResult = stmt.executeQuery();
@@ -41,24 +94,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				film.setDesc(filmResult.getString(2));
 				film.setYear(filmResult.getString(3));
 				film.setRating(filmResult.getString(4));
-				switch (filmResult.getInt(5)) {
-				case 1:
-					lang = "English";
-					break;
-				case 2:
-					lang = "Italian";
-					break;
-				case 3:
-					lang = "Japanese";
-					break;
-				case 4:
-					lang = "Chinese";
-					break;
-				case 5:
-					lang = "French";
-					break;
-				}
-				film.setLang(lang);
+				film.setLang(this.getLanguage(filmId));
 			}
 			filmResult.close();
 			stmt.close();
@@ -74,10 +110,9 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		Film film = null;
 		String user = "student";
 		String pass = "student";
-		String lang = "";
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
-			String sql = "SELECT title, description, release_year, rating, language_id FROM film";
+			String sql = "SELECT title, description, release_year, rating, id FROM film";
 			sql += " WHERE title LIKE ? OR description LIKE ?";
 
 			PreparedStatement stmt = conn.prepareStatement(sql);
@@ -90,24 +125,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				film.setDesc(filmResult.getString(2));
 				film.setYear(filmResult.getString(3));
 				film.setRating(filmResult.getString(4));
-				switch (filmResult.getInt(5)) {
-				case 1:
-					lang = "English";
-					break;
-				case 2:
-					lang = "Italian";
-					break;
-				case 3:
-					lang = "Japanese";
-					break;
-				case 4:
-					lang = "Chinese";
-					break;
-				case 5:
-					lang = "French";
-					break;
-				}
-				film.setLang(lang);
+				film.setLang(this.getLanguage(filmResult.getInt(5)));
 				films.add(film);
 			}
 			filmResult.close();
