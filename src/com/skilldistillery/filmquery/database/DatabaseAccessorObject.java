@@ -40,9 +40,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			film.setYear(filmResult.getInt(3));
 			film.setRating(filmResult.getString(4));
 		}
-		if (film.equals(null)) {
-			System.out.println("Film not found.");
-		}
+
 		return film;
 	}
 
@@ -64,7 +62,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			actor.setActor_f_name(actorResult.getString(2));
 			actor.setActor_l_name(actorResult.getString(3));
 		}
-		if (actor.equals(null)){
+		if (actor.equals(null)) {
 			System.out.println("Actor not found");
 		}
 		return actor;
@@ -83,11 +81,11 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			stmt.setInt(1, filmId);
 			ResultSet actorResult = stmt.executeQuery();
 			while (actorResult.next()) {
-					actor = new Actor(); // Create the object
-					// Here is our mapping of query columns to our object fields:
-					actor.setActor_f_name(actorResult.getString(1));
-					actor.setActor_l_name(actorResult.getString(2));
-					actors.add(actor);
+				actor = new Actor(); // Create the object
+				// Here is our mapping of query columns to our object fields:
+				actor.setActor_f_name(actorResult.getString(1));
+				actor.setActor_l_name(actorResult.getString(2));
+				actors.add(actor);
 			}
 			actorResult.close();
 			stmt.close();
@@ -101,5 +99,12 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		return actors;
 	}
 
-	public 
+	public List<Film> findFilmsBySearchWord(String searchWord) {
+		List<Film> films = new ArrayList<Film>();
+
+		if (films.isEmpty()) {
+			System.out.println("No matching films found.");
+		}
+		return films;
+	}
 }

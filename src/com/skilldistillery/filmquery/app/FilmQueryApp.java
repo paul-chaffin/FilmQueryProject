@@ -45,7 +45,11 @@ public class FilmQueryApp {
 				input.nextLine();
 				System.out.print("Enter the film ID: ");
 				filmid = input.nextInt();
-				System.out.println(db.findFilmById(filmid));
+				if(db.findFilmById(filmid) == null) {
+					System.out.println("Film not found, sorry!");
+				} else {
+					System.out.println(db.findFilmById(filmid));
+				};
 				break;
 			case 2:
 				input.nextLine();
