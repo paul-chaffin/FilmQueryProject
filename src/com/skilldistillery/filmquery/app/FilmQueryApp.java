@@ -45,17 +45,18 @@ public class FilmQueryApp {
 				input.nextLine();
 				System.out.print("Enter the film ID: ");
 				filmid = input.nextInt();
-				if(db.findFilmById(filmid) == null) {
+				if (db.findFilmById(filmid) == null) {
 					System.out.println("Film not found, sorry!");
 				} else {
 					System.out.println(db.findFilmById(filmid));
-				};
+				}
+				;
 				break;
 			case 2:
 				input.nextLine();
 				System.out.print("Enter the search word: ");
 				searchWord = input.next();
-				if(db.findFilmByTerm(searchWord) == null) {
+				if (db.findFilmByTerm(searchWord) == null) {
 					System.out.println("Keyword not found in any films, sorry!");
 				} else {
 					System.out.println(db.findFilmByTerm(searchWord));

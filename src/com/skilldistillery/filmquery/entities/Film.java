@@ -10,11 +10,12 @@ import java.util.List;
 import java.util.Objects;
 
 public class Film {
+	private static String url = "jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain";
 	private int id;
 	private String title;
 	private String desc;
 	private String year;
-	private int lang;
+	private String lang;
 	private int rental_dur;
 	private double rental_rate;
 	private int length;
@@ -22,15 +23,16 @@ public class Film {
 	private String rating;
 	private String feat;
 	private List<Actor> actors;
-	
-	public Film() {}
-	
-	public Film(int id, String title, String desc, int year) {
-		
+
+	public Film() {
 	}
 
-	public Film(int id, String title, String desc, int year, int lang, int rental_dur, double rental_rate, int length,
-			double repl_cost, String rating, String feat) {
+	public Film(int id, String title, String desc, int year) {
+
+	}
+
+	public Film(int id, String title, String desc, String year, String lang, int rental_dur, double rental_rate,
+			int length, double repl_cost, String rating, String feat) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -43,9 +45,9 @@ public class Film {
 		this.repl_cost = repl_cost;
 		this.rating = rating;
 		this.feat = feat;
-		setActors();
+		this.actors = setActors();
 	}
-	
+
 	public List<Actor> setActors() {
 		actors = new ArrayList<Actor>();
 		Actor actor = null;
@@ -109,11 +111,12 @@ public class Film {
 		this.year = year;
 	}
 
-	public int getLang() {
+	public String getLang() {
 		return lang;
 	}
 
-	public void setLang(int lang) {
+	public void setLang(String lang) {
+
 		this.lang = lang;
 	}
 
@@ -167,7 +170,7 @@ public class Film {
 
 	@Override
 	public String toString() {
-		return "\nTitle: " + title + "\nYear: " + year + "\nRating: " + rating + "\nDescription: " + desc + "\n";
+		return "\nTitle: " + title + "\nYear: " + year + "\nRating: " + rating + "\nDescription: " + desc + "\nLanguage: " + lang + "\n";
 	}
 
 	@Override
@@ -191,8 +194,5 @@ public class Film {
 				&& Double.doubleToLongBits(repl_cost) == Double.doubleToLongBits(other.repl_cost)
 				&& Objects.equals(title, other.title) && year == other.year;
 	};
-	
-	
-	
-	
+
 }

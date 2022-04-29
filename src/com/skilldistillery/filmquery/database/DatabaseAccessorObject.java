@@ -27,20 +27,45 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		Film film = null;
 		String user = "student";
 		String pass = "student";
-		Connection conn = DriverManager.getConnection(url, user, pass);
+		String lang = "";
+		try {
+			Connection conn = DriverManager.getConnection(url, user, pass);
 
-		String sql = "SELECT title, description, release_year, rating FROM film WHERE id = ?";
-		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, filmId);
-		ResultSet filmResult = stmt.executeQuery();
-		if (filmResult.next()) {
-			film = new Film();
-			film.setTitle(filmResult.getString(1));
-			film.setDesc(filmResult.getString(2));
-			film.setYear(filmResult.getInt(3));
-			film.setRating(filmResult.getString(4));
+			String sql = "SELECT title, description, release_year, rating, language_id FROM film WHERE id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, filmId);
+			ResultSet filmResult = stmt.executeQuery();
+			if (filmResult.next()) {
+				film = new Film();
+				film.setTitle(filmResult.getString(1));
+				film.setDesc(filmResult.getString(2));
+				film.setYear(filmResult.getString(3));
+				film.setRating(filmResult.getString(4));
+				switch (filmResult.getInt(5)) {
+				case 1:
+					lang = "English";
+					break;
+				case 2:
+					lang = "Italian";
+					break;
+				case 3:
+					lang = "Japanese";
+					break;
+				case 4:
+					lang = "Chinese";
+					break;
+				case 5:
+					lang = "French";
+					break;
+				}
+				film.setLang(lang);
+			}
+			filmResult.close();
+			stmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-
 		return film;
 	}
 
@@ -49,9 +74,10 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		Film film = null;
 		String user = "student";
 		String pass = "student";
+		String lang = "";
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
-			String sql = "SELECT title, description, release_year, rating FROM film";
+			String sql = "SELECT title, description, release_year, rating, language_id FROM film";
 			sql += " WHERE title LIKE ? OR description LIKE ?";
 
 			PreparedStatement stmt = conn.prepareStatement(sql);
@@ -64,6 +90,24 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				film.setDesc(filmResult.getString(2));
 				film.setYear(filmResult.getString(3));
 				film.setRating(filmResult.getString(4));
+				switch (filmResult.getInt(5)) {
+				case 1:
+					lang = "English";
+					break;
+				case 2:
+					lang = "Italian";
+					break;
+				case 3:
+					lang = "Japanese";
+					break;
+				case 4:
+					lang = "Chinese";
+					break;
+				case 5:
+					lang = "French";
+					break;
+				}
+				film.setLang(lang);
 				films.add(film);
 			}
 			filmResult.close();
