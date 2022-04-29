@@ -1,77 +1,120 @@
 package com.skilldistillery.filmquery.entities;
 
-import java.util.Arrays;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Film {
-	private int film_id;
-	private String film_title;
-	private String film_desc;
-	private int film_year;
-	private int film_lang;
+	private int id;
+	private String title;
+	private String desc;
+	private int year;
+	private int lang;
 	private int rental_dur;
 	private double rental_rate;
-	private int film_length;
+	private int length;
 	private double repl_cost;
-	private String film_rating;
-	private String spec_feat;
+	private String rating;
+	private String feat;
+	private List<Actor> actors;
 	
-	public Film() {};
+	public Film() {}
 	
-	public Film(int film_id, String film_title, String film_desc, int film_year, int film_lang, int rental_dur,
-			double rental_rate, int film_length, double repl_cost, String film_rating, String spec_feat) {
+	public Film(int id, String title, String desc, int year) {
+		
+	}
+
+	public Film(int id, String title, String desc, int year, int lang, int rental_dur, double rental_rate, int length,
+			double repl_cost, String rating, String feat) {
 		super();
-		this.film_id = film_id;
-		this.film_title = film_title;
-		this.film_desc = film_desc;
-		this.film_year = film_year;
-		this.film_lang = film_lang;
+		this.id = id;
+		this.title = title;
+		this.desc = desc;
+		this.year = year;
+		this.lang = lang;
 		this.rental_dur = rental_dur;
 		this.rental_rate = rental_rate;
-		this.film_length = film_length;
+		this.length = length;
 		this.repl_cost = repl_cost;
-		this.film_rating = film_rating;
-		this.spec_feat = spec_feat;
+		this.rating = rating;
+		this.feat = feat;
+		setActors();
+	}
+	
+	public List<Actor> setActors() {
+		actors = new ArrayList<Actor>();
+		Actor actor = null;
+		String user = "student";
+		String pass = "student";
+		try {
+			Connection conn = DriverManager.getConnection(url, user, pass);
+			String sql = "SELECT id, first_name, last_name, ";
+			sql += " FROM actor JOIN film_actor ON actor.id = film_actor.actor_id " + " WHERE film_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, this.id);
+			ResultSet actorResult = stmt.executeQuery();
+			while (actorResult.next()) {
+				if (actorResult.next()) {
+					actor = new Actor(); // Create the object
+					// Here is our mapping of query columns to our object fields:
+					actor.setActor_id(actorResult.getInt(1));
+					actor.setActor_f_name(actorResult.getString(2));
+					actor.setActor_l_name(actorResult.getString(3));
+					actors.add(actor);
+				}
+			}
+			actorResult.close();
+			stmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return actors;
 	}
 
-	public int getFilm_id() {
-		return film_id;
+	public int getId() {
+		return id;
 	}
 
-	public void setFilm_id(int film_id) {
-		this.film_id = film_id;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public String getFilm_title() {
-		return film_title;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setFilm_title(String film_title) {
-		this.film_title = film_title;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public String getFilm_desc() {
-		return film_desc;
+	public String getDesc() {
+		return desc;
 	}
 
-	public void setFilm_desc(String film_desc) {
-		this.film_desc = film_desc;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
-	public int getFilm_year() {
-		return film_year;
+	public int getYear() {
+		return year;
 	}
 
-	public void setFilm_year(int film_year) {
-		this.film_year = film_year;
+	public void setYear(int year) {
+		this.year = year;
 	}
 
-	public int getFilm_lang() {
-		return film_lang;
+	public int getLang() {
+		return lang;
 	}
 
-	public void setFilm_lang(int film_lang) {
-		this.film_lang = film_lang;
+	public void setLang(int lang) {
+		this.lang = lang;
 	}
 
 	public int getRental_dur() {
@@ -90,12 +133,12 @@ public class Film {
 		this.rental_rate = rental_rate;
 	}
 
-	public int getFilm_length() {
-		return film_length;
+	public int getLength() {
+		return length;
 	}
 
-	public void setFilm_length(int film_length) {
-		this.film_length = film_length;
+	public void setLength(int length) {
+		this.length = length;
 	}
 
 	public double getRepl_cost() {
@@ -106,38 +149,32 @@ public class Film {
 		this.repl_cost = repl_cost;
 	}
 
-	public String getFilm_rating() {
-		return film_rating;
+	public String getRating() {
+		return rating;
 	}
 
-	public void setFilm_rating(String film_rating) {
-		this.film_rating = film_rating;
+	public void setRating(String rating) {
+		this.rating = rating;
 	}
 
-	public String[] getSpec_feat() {
-		return spec_feat;
+	public String getFeat() {
+		return feat;
 	}
 
-	public void setSpec_feat(String[] spec_feat) {
-		this.spec_feat = spec_feat;
+	public void setFeat(String feat) {
+		this.feat = feat;
 	}
 
 	@Override
 	public String toString() {
-		return "Film [film_id=" + film_id + ", film_title=" + film_title + ", film_desc=" + film_desc + ", film_year="
-				+ film_year + ", film_lang=" + film_lang + ", rental_dur=" + rental_dur + ", rental_rate=" + rental_rate
-				+ ", film_length=" + film_length + ", repl_cost=" + repl_cost + ", film_rating=" + film_rating
-				+ ", spec_feat=" + Arrays.toString(spec_feat) + "]";
+		return "Film [id=" + id + ", title=" + title + ", desc=" + desc + ", year=" + year + ", lang=" + lang
+				+ ", rental_dur=" + rental_dur + ", rental_rate=" + rental_rate + ", length=" + length + ", repl_cost="
+				+ repl_cost + ", rating=" + rating + ", feat=" + feat + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Arrays.hashCode(spec_feat);
-		result = prime * result + Objects.hash(film_desc, film_id, film_lang, film_length, film_rating, film_title,
-				film_year, rental_dur, rental_rate, repl_cost);
-		return result;
+		return Objects.hash(desc, feat, id, lang, length, rating, rental_dur, rental_rate, repl_cost, title, year);
 	}
 
 	@Override
@@ -149,14 +186,15 @@ public class Film {
 		if (getClass() != obj.getClass())
 			return false;
 		Film other = (Film) obj;
-		return Objects.equals(film_desc, other.film_desc) && film_id == other.film_id && film_lang == other.film_lang
-				&& film_length == other.film_length && Objects.equals(film_rating, other.film_rating)
-				&& Objects.equals(film_title, other.film_title) && film_year == other.film_year
+		return Objects.equals(desc, other.desc) && Objects.equals(feat, other.feat) && id == other.id
+				&& lang == other.lang && length == other.length && Objects.equals(rating, other.rating)
 				&& rental_dur == other.rental_dur
 				&& Double.doubleToLongBits(rental_rate) == Double.doubleToLongBits(other.rental_rate)
 				&& Double.doubleToLongBits(repl_cost) == Double.doubleToLongBits(other.repl_cost)
-				&& Arrays.equals(spec_feat, other.spec_feat);
-	}
+				&& Objects.equals(title, other.title) && year == other.year;
+	};
+	
+	
 	
 	
 }

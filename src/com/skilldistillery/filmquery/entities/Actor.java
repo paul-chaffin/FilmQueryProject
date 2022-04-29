@@ -42,8 +42,7 @@ public class Actor {
 
 	@Override
 	public String toString() {
-		return "Actor [actor_id=" + actor_id + ", actor_f_name=" + actor_f_name + ", actor_l_name=" + actor_l_name
-				+ "]";
+		return actor_f_name + " " + actor_l_name;
 	}
 
 	@Override
