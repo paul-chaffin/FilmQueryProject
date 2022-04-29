@@ -22,26 +22,23 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 	}
 
-	public List<Actor> setActors() {
+	public List<Actor> findActors(int filmId) throws SQLException {
 		List<Actor> actors = new ArrayList<>();
 		Actor actor = null;
 		String user = "student";
 		String pass = "student";
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
-			String sql = "SELECT first_name, last_name, ";
+			String sql = "SELECT first_name, last_name";
 			sql += " FROM actor JOIN film_actor ON actor.id = film_actor.actor_id " + " WHERE film_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, this.id);
+			stmt.setInt(1, filmId);
 			ResultSet actorResult = stmt.executeQuery();
 			while (actorResult.next()) {
-				if (actorResult.next()) {
-					actor = new Actor(); // Create the object
-					// Here is our mapping of query columns to our object fields:
-					actor.setActor_f_name(actorResult.getString(1));
-					actor.setActor_l_name(actorResult.getString(2));
-					actors.add(actor);
-				}
+				actor = new Actor(); // Create the object
+				actor.setActor_f_name(actorResult.getString(1));
+				actor.setActor_l_name(actorResult.getString(2));
+				actors.add(actor);
 			}
 			actorResult.close();
 			stmt.close();
@@ -95,6 +92,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				film.setYear(filmResult.getString(3));
 				film.setRating(filmResult.getString(4));
 				film.setLang(this.getLanguage(filmId));
+				film.setActors(findActors(filmId));
 			}
 			filmResult.close();
 			stmt.close();
@@ -126,6 +124,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				film.setYear(filmResult.getString(3));
 				film.setRating(filmResult.getString(4));
 				film.setLang(this.getLanguage(filmResult.getInt(5)));
+				film.setActors(findActors(filmResult.getInt(5)));
 				films.add(film);
 			}
 			filmResult.close();
