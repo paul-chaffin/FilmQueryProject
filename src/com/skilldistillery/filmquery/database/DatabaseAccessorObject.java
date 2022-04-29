@@ -44,6 +44,38 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		return film;
 	}
 
+	public List<Film> findFilmByTerm(String searchWord) throws SQLException {
+		List<Film> films = new ArrayList<Film>();
+		Film film = null;
+		String user = "student";
+		String pass = "student";
+		try {
+			Connection conn = DriverManager.getConnection(url, user, pass);
+			String sql = "SELECT title, description, release_year, rating FROM film";
+			sql += " WHERE title LIKE ? OR description LIKE ?";
+
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, "%" + searchWord + "%");
+			stmt.setString(2, "%" + searchWord + "%");
+			ResultSet filmResult = stmt.executeQuery();
+			while (filmResult.next()) {
+				film = new Film();
+				film.setTitle(filmResult.getString(1));
+				film.setDesc(filmResult.getString(2));
+				film.setYear(filmResult.getString(3));
+				film.setRating(filmResult.getString(4));
+				films.add(film);
+			}
+			filmResult.close();
+			stmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return films;
+	}
+
 	@Override
 	public Actor findActorById(int actorId) throws SQLException {
 		Actor actor = null;
@@ -62,6 +94,9 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			actor.setActor_f_name(actorResult.getString(2));
 			actor.setActor_l_name(actorResult.getString(3));
 		}
+		actorResult.close();
+		stmt.close();
+		conn.close();
 		if (actor.equals(null)) {
 			System.out.println("Actor not found");
 		}
@@ -99,12 +134,4 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		return actors;
 	}
 
-	public List<Film> findFilmsBySearchWord(String searchWord) {
-		List<Film> films = new ArrayList<Film>();
-
-		if (films.isEmpty()) {
-			System.out.println("No matching films found.");
-		}
-		return films;
-	}
 }

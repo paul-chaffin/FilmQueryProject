@@ -55,9 +55,14 @@ public class FilmQueryApp {
 				input.nextLine();
 				System.out.print("Enter the search word: ");
 				searchWord = input.next();
-				//TODO method call for searchByWord method
+				if(db.findFilmByTerm(searchWord) == null) {
+					System.out.println("Keyword not found in any films, sorry!");
+				} else {
+					System.out.println(db.findFilmByTerm(searchWord));
+				}
 				break;
 			case 3:
+				System.out.println("Goodbye!");
 				break JOHN;
 
 			}

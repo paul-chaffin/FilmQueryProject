@@ -13,7 +13,7 @@ public class Film {
 	private int id;
 	private String title;
 	private String desc;
-	private int year;
+	private String year;
 	private int lang;
 	private int rental_dur;
 	private double rental_rate;
@@ -101,11 +101,11 @@ public class Film {
 		this.desc = desc;
 	}
 
-	public int getYear() {
+	public String getYear() {
 		return year;
 	}
 
-	public void setYear(int year) {
+	public void setYear(String year) {
 		this.year = year;
 	}
 
