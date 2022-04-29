@@ -45,17 +45,17 @@ public class Film {
 		this.repl_cost = repl_cost;
 		this.rating = rating;
 		this.feat = feat;
-		this.actors = setActors();
+		setActors();
 	}
 
-	public List<Actor> setActors() {
+	public void setActors() {
 		actors = new ArrayList<Actor>();
 		Actor actor = null;
 		String user = "student";
 		String pass = "student";
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
-			String sql = "SELECT id, first_name, last_name, ";
+			String sql = "SELECT first_name, last_name, ";
 			sql += " FROM actor JOIN film_actor ON actor.id = film_actor.actor_id " + " WHERE film_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, this.id);
@@ -64,9 +64,8 @@ public class Film {
 				if (actorResult.next()) {
 					actor = new Actor(); // Create the object
 					// Here is our mapping of query columns to our object fields:
-					actor.setActor_id(actorResult.getInt(1));
-					actor.setActor_f_name(actorResult.getString(2));
-					actor.setActor_l_name(actorResult.getString(3));
+					actor.setActor_f_name(actorResult.getString(1));
+					actor.setActor_l_name(actorResult.getString(2));
 					actors.add(actor);
 				}
 			}
@@ -76,7 +75,7 @@ public class Film {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return actors;
+
 	}
 
 	public int getId() {
@@ -170,7 +169,8 @@ public class Film {
 
 	@Override
 	public String toString() {
-		return "\nTitle: " + title + "\nYear: " + year + "\nRating: " + rating + "\nDescription: " + desc + "\nLanguage: " + lang + "\n";
+		return "\nTitle: " + title + "\nYear: " + year + "\nRating: " + rating + "\nDescription: " + desc
+				+ "\nLanguage: " + lang + "\nCast: " + actors + "\n";
 	}
 
 	@Override
