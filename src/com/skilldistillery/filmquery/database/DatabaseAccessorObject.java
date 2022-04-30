@@ -174,7 +174,6 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			ResultSet actorResult = stmt.executeQuery();
 			while (actorResult.next()) {
 				actor = new Actor(); // Create the object
-				// Here is our mapping of query columns to our object fields:
 				actor.setActor_f_name(actorResult.getString(1));
 				actor.setActor_l_name(actorResult.getString(2));
 				actors.add(actor);
