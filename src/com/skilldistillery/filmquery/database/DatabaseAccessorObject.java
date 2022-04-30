@@ -15,12 +15,8 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	private static String url = "jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain";
 
 	public DatabaseAccessorObject() {
-		super();
-//		Class.forName("com.mysql.cj.jdbc.Driver");
 	}
 
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-	}
 
 	public List<Actor> findActors(int filmId) throws SQLException {
 		List<Actor> actors = new ArrayList<>();
@@ -62,7 +58,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			stmt.setInt(1, filmId);
 			ResultSet filmResult = stmt.executeQuery();
 			if (filmResult.next()) {
-				lang = filmResult.getString(1);
+				lang = filmResult.getString("name");
 			}
 			filmResult.close();
 			stmt.close();
@@ -87,10 +83,10 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			ResultSet filmResult = stmt.executeQuery();
 			if (filmResult.next()) {
 				film = new Film();
-				film.setTitle(filmResult.getString(1));
-				film.setDesc(filmResult.getString(2));
-				film.setYear(filmResult.getString(3));
-				film.setRating(filmResult.getString(4));
+				film.setTitle(filmResult.getString("title"));
+				film.setDesc(filmResult.getString("description"));
+				film.setYear(filmResult.getString("release_year"));
+				film.setRating(filmResult.getString("rating"));
 				film.setLang(this.getLanguage(filmId));
 				film.setActors(findActors(filmId));
 			}
@@ -119,12 +115,12 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 			ResultSet filmResult = stmt.executeQuery();
 			while (filmResult.next()) {
 				film = new Film();
-				film.setTitle(filmResult.getString(1));
-				film.setDesc(filmResult.getString(2));
-				film.setYear(filmResult.getString(3));
-				film.setRating(filmResult.getString(4));
-				film.setLang(this.getLanguage(filmResult.getInt(5)));
-				film.setActors(findActors(filmResult.getInt(5)));
+				film.setTitle(filmResult.getString("title"));
+				film.setDesc(filmResult.getString("description"));
+				film.setYear(filmResult.getString("release_year"));
+				film.setRating(filmResult.getString("rating"));
+				film.setLang(this.getLanguage(filmResult.getInt("id")));
+				film.setActors(findActors(filmResult.getInt("id")));
 				films.add(film);
 			}
 			filmResult.close();
