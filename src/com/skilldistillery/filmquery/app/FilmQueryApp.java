@@ -15,7 +15,6 @@ public class FilmQueryApp {
 		app.launch();
 	}
 
-
 	private void launch() throws SQLException {
 		Scanner input = new Scanner(System.in);
 
@@ -26,10 +25,11 @@ public class FilmQueryApp {
 
 	private void startUserInterface(Scanner input) throws SQLException {
 		JOHN: while (true) {
-			System.out.println("What would you like to do??");
+			System.out.println("Please make a selection from the options below:");
 			System.out.println("1. Find a film by its ID");
 			System.out.println("2. Find a film by keyword");
 			System.out.println("3. Quit");
+			System.out.print("Selection > ");
 			int choice = input.nextInt();
 			int filmid;
 			String searchWord;
@@ -37,15 +37,31 @@ public class FilmQueryApp {
 			switch (choice) {
 			case 1:
 				input.nextLine();
-				System.out.print("Enter the film ID: ");
+				System.out.print("Enter the film ID > ");
 				filmid = input.nextInt();
 				if (db.findFilmById(filmid) == null) {
 					System.out.println("Film not found, sorry!");
 				} else {
 					System.out.println(db.findFilmById(filmid));
 				}
-				;
+				input.nextLine();
+				IDSEARCH: while (true) {
+					System.out.println("\nFrom here you can:");
+					System.out.println("1. Show all details for this film");
+					System.out.println("2. Return to the main menu");
+					System.out.print("Selection > ");
+					switch (input.nextInt()) {
+					case 1:
+						System.out.println(db.findFilmById(filmid).toStringAll());
+						break IDSEARCH;
+					case 2:
+						break IDSEARCH;
+					default:
+						System.out.println("\t**PLease make a valid selection.**\n");
+					}
+				}
 				break;
+
 			case 2:
 				input.nextLine();
 				System.out.print("Enter the search word: ");
@@ -54,6 +70,29 @@ public class FilmQueryApp {
 					System.out.println("Keyword not found in any films, sorry!");
 				} else {
 					System.out.println(db.findFilmByTerm(searchWord));
+					WORDSEARCH: while (true) {
+						System.out.println("\nFrom here you can:");
+						System.out.println("1. Show all details for one of these films");
+						System.out.println("2. Return to the main menu");
+						System.out.print("Selection > ");
+						switch (input.nextInt()) {
+						case 1:
+							input.nextLine();
+							System.out.print("Enter the film ID: ");
+							filmid = input.nextInt();
+							if (db.findFilmById(filmid) == null) {
+								System.out.println("Film not found, sorry!");
+							} else {
+								System.out.println(db.findFilmById(filmid).toStringAll());
+								input.nextLine();
+									}
+							continue WORDSEARCH;
+						case 2:
+							break WORDSEARCH;
+						default:
+							System.out.println("\t**PLease make a valid selection.**\n");
+						}
+					}
 				}
 				break;
 			case 3:
@@ -65,7 +104,6 @@ public class FilmQueryApp {
 
 			}
 
-		}
-	}
+}}
 
 }

@@ -9,6 +9,7 @@ public class Film {
 	private String desc;
 	private String year;
 	private String lang;
+	private int lang_id;
 	private int rental_dur;
 	private double rental_rate;
 	private int length;
@@ -85,6 +86,14 @@ public class Film {
 
 		this.lang = lang;
 	}
+	
+	public int getLang_id() {
+		return lang_id;
+	}
+
+	public void setLang_id(int lang_id) {
+		this.lang_id = lang_id;
+	}
 
 	public int getRental_dur() {
 		return rental_dur;
@@ -136,8 +145,15 @@ public class Film {
 
 	@Override
 	public String toString() {
-		return "\nTitle:\t\t" + title + "\nYear:\t\t" + year + "\nRating:\t\t" + rating + "\nDescription:\t" + desc
+		return "\nID:\t\t" + id + "\nTitle:\t\t" + title + "\nYear:\t\t" + year + "\nRating:\t\t" + rating + "\nDescription:\t" + desc
 				+ "\nLanguage:\t" + lang + "\nCast:\t\t" + actors + "\n";
+	}
+	
+	public String toStringAll() {
+		
+		return "\nID:\t\t\t" + id + "\nTitle:\t\t\t" + title + "\nYear:\t\t\t" + year + "\nRating:\t\t\t" + rating + "\nDescription:\t\t" + desc
+				+ "\nLanguage:\t\t" + lang + "\nCast:\t\t\t" + actors + "\nRental duration:\t" + rental_dur + "\nRental rate:\t\t" + rental_rate + "\nLength:\t\t\t"
+				+ length + "\nReplacement Cost: \t" + repl_cost + "\nSpecial Features:\t" + feat + "\n";
 	}
 
 	@Override
