@@ -57,7 +57,7 @@ public class FilmQueryApp {
 					case 2:
 						break IDSEARCH;
 					default:
-						System.out.println("\t**PLease make a valid selection.**\n");
+						System.out.println("\t**Please make a valid selection.**\n");
 					}
 				}
 				break;
@@ -90,7 +90,7 @@ public class FilmQueryApp {
 						case 2:
 							break WORDSEARCH;
 						default:
-							System.out.println("\t**PLease make a valid selection.**\n");
+							System.out.println("\t**Please make a valid selection.**\n");
 						}
 					}
 				}
@@ -99,7 +99,7 @@ public class FilmQueryApp {
 				System.out.println("Goodbye!");
 				break JOHN;
 			default:
-				System.out.println("\t**PLease make a valid selection.**\n");
+				System.out.println("\t**Please make a valid selection.**\n");
 				break;
 
 			}

@@ -152,8 +152,8 @@ public class Film {
 	public String toStringAll() {
 		
 		return "\nID:\t\t\t" + id + "\nTitle:\t\t\t" + title + "\nYear:\t\t\t" + year + "\nRating:\t\t\t" + rating + "\nDescription:\t\t" + desc
-				+ "\nLanguage:\t\t" + lang + "\nCast:\t\t\t" + actors + "\nRental duration:\t" + rental_dur + "\nRental rate:\t\t" + rental_rate + "\nLength:\t\t\t"
-				+ length + "\nReplacement Cost: \t" + repl_cost + "\nSpecial Features:\t" + feat + "\n";
+				+ "\nLanguage:\t\t" + lang + "\nCast:\t\t\t" + actors + "\nRental duration:\t" + rental_dur + " days\nRental rate:\t\t$" + rental_rate + "\nLength:\t\t\t"
+				+ length + " minutes\nReplacement Cost: \t$" + repl_cost + "\nSpecial Features:\t" + feat + "\n";
 	}
 
 	@Override
