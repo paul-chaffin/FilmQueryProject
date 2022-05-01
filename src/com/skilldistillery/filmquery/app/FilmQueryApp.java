@@ -66,8 +66,8 @@ public class FilmQueryApp {
 				input.nextLine();
 				System.out.print("Enter the search word: ");
 				searchWord = input.next();
-				if (db.findFilmByTerm(searchWord) == null) {
-					System.out.println("Keyword not found in any films, sorry!");
+				if (db.findFilmByTerm(searchWord).isEmpty()) {
+					System.out.println("\n\tKeyword not found in any films, sorry!\n");
 				} else {
 					System.out.println(db.findFilmByTerm(searchWord));
 					WORDSEARCH: while (true) {

@@ -15,10 +15,11 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	private static final String url = "jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain";
 	private static final String user = "student";
 	private static final String pass = "student";
+	
 	public DatabaseAccessorObject() {
 	}
 
-
+	@Override
 	public List<Actor> findActors(int filmId) throws SQLException {
 		List<Actor> actors = new ArrayList<>();
 		Actor actor = null;
@@ -103,6 +104,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		return film;
 	}
 
+	@Override
 	public List<Film> findFilmByTerm(String searchWord) throws SQLException {
 		List<Film> films = new ArrayList<Film>();
 		Film film = null;
