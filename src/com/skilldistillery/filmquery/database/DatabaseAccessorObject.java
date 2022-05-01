@@ -12,8 +12,9 @@ import com.skilldistillery.filmquery.entities.Actor;
 import com.skilldistillery.filmquery.entities.Film;
 
 public class DatabaseAccessorObject implements DatabaseAccessor {
-	private static String url = "jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain";
-
+	private static final String url = "jdbc:mysql://localhost:3306/sdvid?useSSL=false&useLegacyDatetimeCode=false&serverTimezone=US/Mountain";
+	private static final String user = "student";
+	private static final String pass = "student";
 	public DatabaseAccessorObject() {
 	}
 
@@ -21,8 +22,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	public List<Actor> findActors(int filmId) throws SQLException {
 		List<Actor> actors = new ArrayList<>();
 		Actor actor = null;
-		String user = "student";
-		String pass = "student";
+		
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
 			String sql = "SELECT first_name, last_name";
@@ -46,8 +46,6 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	}
 
 	public String getLanguage(int filmId) {
-		String user = "student";
-		String pass = "student";
 		String lang = "";
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
@@ -72,8 +70,6 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	@Override
 	public Film findFilmById(int filmId) throws SQLException {
 		Film film = null;
-		String user = "student";
-		String pass = "student";
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
 
@@ -110,8 +106,6 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	public List<Film> findFilmByTerm(String searchWord) throws SQLException {
 		List<Film> films = new ArrayList<Film>();
 		Film film = null;
-		String user = "student";
-		String pass = "student";
 		try {
 			Connection conn = DriverManager.getConnection(url, user, pass);
 			String sql = "SELECT id, title, description, release_year, language_id, rental_duration, rental_rate," 
