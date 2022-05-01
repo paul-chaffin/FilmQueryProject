@@ -59,6 +59,9 @@ public class FilmQueryApp {
 			case 3:
 				System.out.println("Goodbye!");
 				break JOHN;
+			default:
+				System.out.println("\t**PLease make a valid selection.**\n");
+				break;
 
 			}
 
